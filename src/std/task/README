@@ -1,0 +1,37 @@
+Rust Tasks
+==========
+
+This module contains examples about task management in Rust.
+
+Rust tasks are isolated execution units (a.k.a green threads) that
+are scheduled cooperatively by Rust runtime within multiple system
+threads. In multi-core systems, Rust will schedule those tasks in
+parallel by default
+
+Types
+=====
+
+Tasks can be of 3 types:
+
+- Linked: Father and children are linked together. This means that
+when either of the tasks in a task group fail, all others will do
+as well. This failure is called 'linked failure'.
+
+- Supervised: These tasks are supervised by their parent, which means
+that when children fail the parent task won't.
+
+- unlinked: Just that, both tasks are unlinked and if one of them fails,
+it won't make fail the other.
+
+Modules
+=======
+
+Rust tasks functions are defined in `std::task`. Exposed functions are:
+
+- spawn
+
+- spawn_supervised
+
+- spawn_unlinked
+
+- try
