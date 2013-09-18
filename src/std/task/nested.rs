@@ -13,6 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/**
+ * For more information about tasks' behaviour, please, refer to the README
+ * under std/task.
+ */
+
 extern mod extra;
 
 use std::task;
@@ -54,6 +59,36 @@ fn simple_nesting() {
     }
 }
 
+fn supervised_task() {
+    do task::spawn { 
+        do task::spawn_supervised { 
+            // This won't make the parent
+            // task fail.
+            fail!() 
+        }
+    }
+}
+
+fn try_task() {
+    // This task fails but won't make the caller
+    // task fail, instead, it'll return an error result.
+    let failure: Result<(), ()> = do task::try {
+        fail!("BAAAAAAD");
+    };
+
+    assert!(failure.is_err());
+
+    // This task won't fail and will return a ~str
+    let success: Result<~str, ()> = do task::try {
+        ~"Yo, you know how to do things"
+    };
+    assert!(success.is_ok());
+    println(success.unwrap());
+}
+
+
 fn main() {
     simple_nesting();
+    supervised_task();
+    try_task();
 }

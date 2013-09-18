@@ -28,10 +28,14 @@ Modules
 
 Rust tasks functions are defined in `std::task`. Exposed functions are:
 
-- spawn
+- spawn: Creates a new task and schedules it.
 
-- spawn_supervised
+- spawn_supervised: Creates a new supervised task. Supervised tasks won't
+kill the parent on failures but they will be killed once the parent task
+exits.
 
-- spawn_unlinked
+- spawn_unlinked: Creates a new task unlinked. Both tasks are completely
+independent from each other.
 
-- try
+- try: Creates a new task and schedules it. This function returns a Result
+with either the returned value or error raised from the task.
